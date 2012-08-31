@@ -37,10 +37,18 @@ $(function() {
 
     function vote(value) {
         var id = video_list[position]["id"];
-        $.post("vote.php", {vote: value, id: id }, function(data) {
-            alert(data);
-            updateNumbers();
-        });
+        $.post("vote.php", {vote: value, video_id: id }, function(data) {
+            if (data["error"] == "already voted") {
+                $('.alreadyvoted').css('opacity', 1);
+                $('.alreadyvoted').show();
+                TweenLite.to($('.alreadyvoted'), .5, {css:{opacity:0}, delay: 2});
+            } else {
+                video_list[position]["plus"] = data["plus"];
+                video_list[position]["minus"] = data["minus"];
+                updateNumbers();
+            }
+        }, "json");
+        return false;
     }
 
     $('#video .left').click(function() {
@@ -51,7 +59,7 @@ $(function() {
         return advance(1);
     });
 
-    $("#video .not").click(function() {
+    $("#video .like").click(function() {
         return vote(1);
     });
 
@@ -76,7 +84,7 @@ $(function() {
     for (var i = 0; i < video_list.length; i++) {
         $("#layers").append(
             $("<div>", {
-                class: "layer"
+                "class": "layer"
             }).append(
                 getPlayer(video_list[i])
             )
