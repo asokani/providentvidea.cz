@@ -19,14 +19,38 @@ $(function() {
         likenot.html(likenot_value);
     }
 
-    function advance(step) {
-        position = position + step;
+    function loadMore(step) {
+        var next_in_path = position + step;
 
+        next_in_path = letInRange(next_in_path);
+
+        var layers = $("#layers .layer");
+        var iframe = $(layers[next_in_path]).find("iframe");
+        var src = iframe.attr("src");
+
+        if (src == "") {
+            iframe.attr("src", video_list[next_in_path]["src"]);
+        }
+    }
+
+    function letInRange(position) {
         if (position >= video_list.length) {
             position = 0;
         } else if (position < 0) {
             position = video_list.length - 1;
         }
+
+        return position;
+    }
+
+    function advance(step) {
+        position = position + step;
+
+        position = letInRange(position);
+
+
+        loadMore(step);
+
 
         updateTitle();
         updateNumbers()
@@ -67,13 +91,13 @@ $(function() {
         return vote(-1);
     });
 
-    function getPlayer(video) {
+    function getPlayer(video, visible) {
         switch (video["type"]) {
             case "youtube":
                 return $("<iframe>", {
                     width: "640",
                     height: "360",
-                    src: video["src"],
+                    src: visible ? video["src"] : "",
                     frameborder: "0",
                     allowfullscreen: "allowfullscreen"
                 });
@@ -86,7 +110,7 @@ $(function() {
             $("<div>", {
                 "class": "layer"
             }).append(
-                getPlayer(video_list[i])
+                getPlayer(video_list[i], (i < 2) || i == (video_list.length - 1))
             )
         );
     }

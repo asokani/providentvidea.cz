@@ -224,6 +224,7 @@ header a.provident strong {
     height: 360px;
     overflow: hidden;
     margin: 0;
+    background: black;
 }
 
 body > .panel {
