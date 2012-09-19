@@ -305,6 +305,10 @@ body > .panel .links ul li.vimeo a span {
     background-image: url("../img/logo-vimeo.png");
 }
 
+body > .panel .links ul li.metacafe a span {
+    background-image: url("../img/logo-metacafe.png");
+}
+
 body > .panel .links ul li.dailymotion a span {
     background-image: url("../img/logo-dailymotion.png");
 }
@@ -312,6 +316,7 @@ body > .panel .links ul li.dailymotion a span {
 body > .panel .links ul li.stream a span {
     background-image: url("../img/logo-stream.png");
 }
+body > .panel .links ul li.metacafe a span,
 body > .panel .links ul li.youtube a span,
 body > .panel .links ul li.vimeo a span,
 body > .panel .links ul li.dailymotion a span,
